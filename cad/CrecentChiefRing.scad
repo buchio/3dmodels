@@ -10,9 +10,9 @@ difference() {
     cylinder(h=25, r=11, center=true);
 };
 
-translate([13.5, 0, 0]) {
+translate([14, 0, 0]) {
     rotate([0,90,0]) {
-        translate([-8, 0, 0]) {
+        translate([-8, 0, .5]) {
             difference() {
                 {
                     translate([6,0,0]) {
@@ -31,8 +31,8 @@ translate([13.5, 0, 0]) {
     }
     rotate([45, 0, 0]) {
         difference() {
-            cube([4,30,30], center = true);
-            translate([3.8, 0, 0]) {
+            cube([5,30,30], center = true);
+            translate([4.8, 0, 0]) {
                 cube([6,28,28], center = true);
             }
         }
