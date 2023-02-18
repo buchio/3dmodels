@@ -12,12 +12,12 @@ difference() {
 
 translate([13.5, 0, 0]) {
     rotate([0,90,0]) {
-        translate([-5, 0, 0]) {
+        translate([-10, 0, 0]) {
             difference() {
-                translate([5,0,0]) {
-                    cylinder(h=4, r=12, center=true);
+                translate([7,0,0]) {
+                    cylinder(h=4, r=13, center=true);
                 }
-                cylinder(h=5, r=12, center=true);
+                cylinder(h=6, r=13.5, center=true);
             }
         }
     }
