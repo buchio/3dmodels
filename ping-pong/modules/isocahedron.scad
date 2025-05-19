@@ -17,10 +17,10 @@ module isocahedron(initial_depth=2, thickness=0.2, scale=0.5, type=1) {
     ]; // isocahedron triangles
     
     module subdivide(v1, v2, v3, depth) {
-        echo(v1, v2, v3, depth)
+        //echo(v1, v2, v3, depth)
         if(depth == 0)
         {
-            echo(v1, v2, v3, depth);
+            //echo(v1, v2, v3, depth);
             solid_triangle(v1, v2, v3, thickness, scale);
         } else if (depth == 1) {
             s12 = v1 + v2;
@@ -38,8 +38,8 @@ module isocahedron(initial_depth=2, thickness=0.2, scale=0.5, type=1) {
             } else if(type == 2) {
                 subdivide(v12, v23, v31, depth-1);
             } else if(type == 3) {
-                subdivide(v1, v12, v31, depth-1);
-                subdivide(v2, v23, v12, depth-1);
+                subdivide(v1, v2, v23, depth-1);
+                subdivide(v1, v3, v32, depth-1);
                 //subdivide(v3, v31, v23, depth-1);
                 //subdivide(v12, v23, v31, depth-1);
             }
@@ -62,3 +62,4 @@ module isocahedron(initial_depth=2, thickness=0.2, scale=0.5, type=1) {
         subdivide(vdata[i[0]], vdata[i[1]], vdata[i[2]], initial_depth);
     }
 };
+scale(15)    isocahedron(initial_depth=2, thickness=.1, scale=0.7, type=3);
