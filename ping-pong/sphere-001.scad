@@ -3,14 +3,16 @@ $fn=50;
 
 use <modules/isocahedron.scad>
 
-difference() {
+scale(18) {
     difference() {
-        sphere(0.90);
-        sphere(0.88);
+        difference() {
+            sphere(0.95);
+            sphere(0.88);
+        }
+        isocahedron(initial_depth=2,scale=0.7);
     }
-    isocahedron(initial_depth=2,scale=0.6);
-}
-      
+    //isocahedron(initial_depth=2,scale=0.6);
+}  
         
 
 

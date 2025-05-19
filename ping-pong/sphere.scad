@@ -13,9 +13,9 @@ difference() {
         difference() {
             difference() {
                 sphere(0.90);
-                sphere(0.88);
+                sphere(0.86);
             }
-            isocahedron();
+            isocahedron(thickness=0.3);
         }
     }
     cuttingcube();
