@@ -1,7 +1,7 @@
 
-use <solid_triangle.scad>
+use <triangle.scad>
 
-module isocahedron(initial_depth=2, thickness=0.2, scale=0.5, type=1) {
+module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
     X = 0.525731112119133606;
     Z = 0.850650808352039932;
     vdata = [
@@ -21,7 +21,7 @@ module isocahedron(initial_depth=2, thickness=0.2, scale=0.5, type=1) {
         if(depth == 0)
         {
             //echo(v1, v2, v3, depth);
-            solid_triangle(v1, v2, v3, thickness, scale);
+            solid_triangle_scaled(v1, v2, v3, thickness, scale);
         } else if (depth == 1) {
             s12 = v1 + v2;
             v12 = (norm(s12) == 0) ? s12 : s12 / norm(s12);
@@ -39,7 +39,7 @@ module isocahedron(initial_depth=2, thickness=0.2, scale=0.5, type=1) {
                 subdivide(v12, v23, v31, depth-1);
             } else if(type == 3) {
                 subdivide(v1, v2, v23, depth-1);
-                subdivide(v1, v3, v32, depth-1);
+                subdivide(v1, v3, v23, depth-1);
                 //subdivide(v3, v31, v23, depth-1);
                 //subdivide(v12, v23, v31, depth-1);
             }
@@ -62,4 +62,3 @@ module isocahedron(initial_depth=2, thickness=0.2, scale=0.5, type=1) {
         subdivide(vdata[i[0]], vdata[i[1]], vdata[i[2]], initial_depth);
     }
 };
-scale(15)    isocahedron(initial_depth=2, thickness=.1, scale=0.7, type=3);
