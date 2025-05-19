@@ -29,6 +29,7 @@ module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
             v23 = (norm(s23) == 0) ? s23 : s23 / norm(s23);
             s31 = v1 + v3;
             v31 = (norm(s31) == 0) ? s31 : s31 / norm(s31);
+            v123 = (v1 + v2 + v3) / 3;
 
             if(type == 1) {
                 subdivide(v1, v12, v31, depth-1);
@@ -38,10 +39,9 @@ module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
             } else if(type == 2) {
                 subdivide(v12, v23, v31, depth-1);
             } else if(type == 3) {
-                subdivide(v1, v2, v23, depth-1);
-                subdivide(v1, v3, v23, depth-1);
-                //subdivide(v3, v31, v23, depth-1);
-                //subdivide(v12, v23, v31, depth-1);
+                subdivide(v123, v1, v2, depth-1);
+                subdivide(v123, v2, v3, depth-1);
+                subdivide(v123, v3, v1, depth-1);
             }
         } else {
             s12 = v1 + v2;
