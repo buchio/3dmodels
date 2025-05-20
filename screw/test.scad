@@ -1,76 +1,63 @@
 $fn=64;
 
-module blade() {
+module blade(x=5, y=20, border=0) {
     difference() {
         hull() {
-            translate([-5, 0, 0]) circle(1);
-            translate([5, 0, 0]) circle(1);
+            r = x/2-border;
+            translate([0, y/2-x/2, 0]) circle(r);
+            translate([0, -y/2+x/2, 0]) circle(r);
         }
         union() {
-            translate([0, 15.4, 0]) circle(15);
-            translate([0, -15.4, 0]) circle(15);
+            r = y + border/4;
+            l = y + x*x/y -(border/2);
+            translate([l, 0, 0]) circle(r);
+            translate([-l, 0, 0]) circle(r);
         }
     }
 }
-module inner_blade() {
-    difference() {
-        hull() {
-            translate([-5, 0, 0]) circle(0.8);
-            translate([5, 0, 0]) circle(0.8);
-        }
-        union() {
-            translate([0, 15.2, 0]) circle(15);
-            translate([0, -15.2, 0]) circle(15);
-        }
-    }
-}
-
 //blade();
-//color("red") translate([0, 0, 1]) inner_blade();
+//color("red") translate([0, 0, 1]) blade(border=.6);
 
  
-module flower() {
-    blade();
-    rotate(60) blade();
-    rotate(120) blade();
-}
-
-module inner_flower() {
-    inner_blade();
-    rotate(60) inner_blade();
-    rotate(120) inner_blade();
+module flower(b=0) {
+    blade(border=b);
+    rotate(60) blade(border=b);
+    rotate(120) blade(border=b);
 }
 
 //flower();
-//color("red") translate([0, 0, 1]) inner_flower();
+//color("red") translate([0, 0, 1]) flower(.6);
 
 
-module spiral() {
-    linear_extrude(20, twist=360, center=true) 
-        flower();
-}
-
-module inner_spiral() {
-    linear_extrude(20, twist=360, center=true) 
-        inner_flower();
+module spiral(b=0) {
+    linear_extrude(60, twist=360, center=true) 
+        flower(b);
 }
 
 //spiral();
-//color("green") translate([0, 0, 10]) inner_spiral();
+//color("green") translate([0, 0, 10]) spiral(.7);
 
 intersection() {
-    cube([100, 100, 10], center=true);
+    cube([100, 100, 30], center=true);
     union() {
-        translate([20, 0, 0] ) inner_spiral();
-        difference() {
-            cylinder(20, 8, 8, center=true);
+        translate([-20, 0, 0] ) spiral(.7);
+        translate([20, 0, 0] ) difference() {
+            cylinder(60, 12, 12, center=true);
             spiral();
         }
     }
 }
 
-//translate([20, 0, 0] ) inner_spiral();
-//difference() {
-//    cylinder(20, 8, 8, center=true);
-//    spiral();
-//}
+translate([0, -20, 0]) {
+    difference() {
+        cylinder(30, 12, 3, center=true);
+        spiral(.7);
+    }
+}
+
+translate([0, 20, 0]) {
+    intersection() {
+        cylinder(30, 12, 3, center=true);
+        spiral();
+    }
+}
