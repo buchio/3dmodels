@@ -1,6 +1,6 @@
 $fn=64;
 
-module blade(x=5, y=20, border=0) {
+module blade(x=7, y=30, border=0) {
     difference() {
         hull() {
             r = x/2-border;
@@ -26,7 +26,7 @@ module flower(b=0) {
 }
 
 //flower();
-//color("red") translate([0, 0, 1]) flower(.6);
+//color("red") translate([0, 0, 1]) flower(.8);
 
 
 module spiral(b=0) {
@@ -37,27 +37,33 @@ module spiral(b=0) {
 //spiral();
 //color("green") translate([0, 0, 10]) spiral(.7);
 
-intersection() {
-    cube([100, 100, 30], center=true);
-    union() {
-        translate([-20, 0, 0] ) spiral(.7);
-        translate([20, 0, 0] ) difference() {
-            cylinder(60, 12, 12, center=true);
+
+translate([-30, 0, 0] ) {
+    intersection() {
+        cube([30, 30, 50], center=true);
+        spiral(.8);
+    }
+}
+
+translate([30, 0, 0] ) difference() {
+    cylinder(50, 16, 16, center=true);
+    spiral();
+}
+
+
+translate([0, -30, 0]) {
+    difference() {
+        difference() {
+            cylinder(50, 18, 5, center=true);
             spiral();
         }
+        translate([0, 0, 30]) cube([30, 30, 20], center=true);
     }
 }
 
-translate([0, -20, 0]) {
-    difference() {
-        cylinder(30, 12, 3, center=true);
-        spiral(.7);
-    }
-}
-
-translate([0, 20, 0]) {
+translate([0, 30, 0]) {
     intersection() {
-        cylinder(30, 12, 3, center=true);
-        spiral();
+        cylinder(50, 18, 5, center=true);
+        spiral(.8);
     }
 }
