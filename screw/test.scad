@@ -14,6 +14,7 @@ module blade(x=7, y=30, border=0) {
             translate([-l, 0, 0]) circle(r);
         }
     }
+    circle(3);
 }
 //blade();
 //color("red") translate([0, 0, 1]) blade(border=.6);
@@ -30,7 +31,7 @@ module flower(b=0) {
 
 
 module spiral(b=0) {
-    linear_extrude(60, twist=360, center=true) 
+    linear_extrude(60, twist=360)
         flower(b);
 }
 
@@ -38,32 +39,39 @@ module spiral(b=0) {
 //color("green") translate([0, 0, 10]) spiral(.7);
 
 
-translate([-30, 0, 0] ) {
-    intersection() {
-        cube([30, 30, 50], center=true);
-        spiral(.8);
-    }
-}
-
-translate([30, 0, 0] ) difference() {
-    cylinder(50, 16, 16, center=true);
-    spiral();
-}
-
-
+//translate([-30, 0, 0] ) {
+//    intersection() {
+//        cube([30, 30, 100], center=true);
+//        spiral(.8);
+//    }
+//}
+//
+//translate([30, 0, 0] ) difference() {
+//    cylinder(50, 16, 16);
+//    spiral();
+//}
+//
+//
 translate([0, -30, 0]) {
     difference() {
         difference() {
-            cylinder(50, 18, 5, center=true);
+            cylinder(57.692, 18, 3);
             spiral();
         }
-        translate([0, 0, 30]) cube([30, 30, 20], center=true);
+        translate([-15, -15, 55]) cube([30, 30, 30]);
     }
 }
 
 translate([0, 30, 0]) {
     intersection() {
-        cylinder(50, 18, 5, center=true);
+        union() {
+            translate([0, 0, 57.5]) sphere(3);
+            cylinder(57.692, 18, 3);
+        }
         spiral(.8);
     }
 }
+
+
+//cylinder(50, 18, 5);
+//color("green") cylinder(57.692, 18, 3);
