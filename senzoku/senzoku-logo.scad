@@ -36,12 +36,36 @@ module wide_arc_polygon(outer_radius, inner_radius, start_angle, end_angle, fn =
     
     polygon(points);
 }
+
 $fn=64;
-translate([0, 0, -1]) color("red") import("senzoku-logo.svg", center=true);
-wide_arc_polygon(22, 18, 0, 360);
-color("blue", .5) translate([0, -5, 0]) {
-    wide_arc_polygon(12, 8, 24, 360);
-    translate([0, -2, 0]) square([11.5, 3]);
+//translate([0, 0, -1]) color("red") import("senzoku-logo.svg", center=true);
+
+module edge() {
+    translate([.5, 0, 0]) {
+        hull() {
+            circle(.5);
+            translate([3, 0, 0]) circle(.5);
+        }
+    }
+}
+module senzoku_logo() {
+    union() {
+        wide_arc_polygon(22, 18, 0, 360);
+        translate([0, -5, 0]) {
+            wide_arc_polygon(12, 8, 20, 357);
+            translate([1, -3, 0]) square([8, 3]);
+            rotate([0, 0, 20]) translate([8, 0, 0]) edge();
+            translate([8, -.5, 0])  edge();
+        }
+        translate([-2, 10, 0]) {
+                wide_arc_polygon(7, 3, 15, 270);
+                rotate([0, 0, 15]) translate([3, 0, 0]) edge();
+
+        }
+        translate([-2, -1, 0]) {
+                wide_arc_polygon(8, 4, -210, 90);
+        }
+    }
 }
 
-
+color("green", .3) linear_extrude(3) senzoku_logo();
