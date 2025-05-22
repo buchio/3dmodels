@@ -1,11 +1,11 @@
-$fn=64;
+$fn=100;
 
 wall_size = .8;
 blade_width = 7;
 blade_length = 30;
 spiral_height = 60;
 
-thread_wall_size = 1;
+thread_wall_size = 2;
 thread_height = 50;
 
 module blade(inner=false) {
@@ -95,8 +95,10 @@ module corn_internal_thread() {
             cylinder(h, r1, r2);
             spiral(thread_height);
         }
-        translate([r1, r1, h-r2]) cube(r1*2);
+        translate([r1, r1, h-r2]) cube(r1*1.5);
     }
 }
 //translate([0, -blade_length, 0]) corn_external_thread();
-translate([-blade_length, 0, 0]) corn_internal_thread();
+//translate([-blade_length, 0, 0]) corn_internal_thread();
+corn_external_thread();
+corn_internal_thread();
