@@ -3,7 +3,7 @@ include <BOSL2/std.scad>
 
 $fn=100;
 
-asobi = .3;
+asobi = .1;
 
 joint_radius = 2.5;
 radius = 22;
@@ -63,8 +63,12 @@ module hand() {
             rotate([180, 0, 0]) rounding_hole_mask(r=hand_radius_1, rounding=.5);
         }
     }
-    translate([1.3, -2.5, hand_thickness/2]) rotate([90, 0, 30]) hand_end();
-    translate([1.3, 2.5, hand_thickness/2]) rotate([-90, 0, -30]) hand_end();
+    // asobi=.1
+    translate([1.21, -2.3, hand_thickness/2]) rotate([90, 0, 30]) hand_end();
+    translate([1.21, 2.3, hand_thickness/2]) rotate([-90, 0, -30]) hand_end();
+    // asobi=.3
+    //translate([1.3, -2.5, hand_thickness/2]) rotate([90, 0, 30]) hand_end();
+    //translate([1.3, 2.5, hand_thickness/2]) rotate([-90, 0, -30]) hand_end();
     difference() {
         translate([-(hand_length/2 + (hand_radius_2+hand_radius_1)/2), -thickness/2, 0]) cube([hand_length/2, thickness, hand_thickness]);
         union() {
