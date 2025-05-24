@@ -13,7 +13,7 @@ slit_width = (joint_radius + gap) * 2;
 hand_radius = radius - hand_length;
 hand_thickness = 4;
 hand_radius_1 = joint_radius + gap;
-hand_radius_2 = joint_radius + 2;
+hand_radius_2 = joint_radius + 2.5;
 
 
 module plate() {
