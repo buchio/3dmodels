@@ -28,6 +28,7 @@ module connect_points(point1, point2, radius) {
 }
 
 function cent(v) = (norm(v) == 0) ? v : v / norm(v);
+function quarter(v1, v2) = cent(v1 + cent(v1+v2));
 
 module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
     X = 0.525731112119133606;
@@ -48,15 +49,14 @@ module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
         //echo(v1, v2, v3, depth)
         if(depth == 0)
         {
-            if(type == 3) {
-                connect_points(v1, v2, thickness);
-                connect_points(v1, v3, thickness);
-                translate(v1) sphere(thickness*1.1);
-                translate(v2) sphere(thickness*1.1);
-                translate(v3) sphere(thickness*1.1);
-            } else {
-                solid_triangle_scaled(v1, v2, v3, thickness, scale);
-            }
+            v123 = cent(v1+v2+v3);
+
+            v1_123 = quarter(v1, v123);
+            v2_123 = quarter(v2, v123);
+            v3_123 = quarter(v3, v123);
+            echo("v1:", v1_123, "v2:", v2_123, "v3:", v3_123);
+            polyhedron([[0, 0, 0], v1_123, v2_123, v3_123], [[0, 1, 2], [1, 2, 3], [0, 1, 3], [0, 2, 3]]);
+            
         } else if (depth == 1) {
             v12 = cent(v1 + v2);
             v23 = cent(v2 + v3);
@@ -94,3 +94,5 @@ module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
         subdivide(vdata[i[0]], vdata[i[1]], vdata[i[2]], initial_depth);
     }
 };
+
+isocahedron(initial_depth=2, type=1, $fn=32);
