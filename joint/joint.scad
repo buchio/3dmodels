@@ -2,10 +2,11 @@ include <BOSL2/std.scad>
 
 // Parameters.
 $fn=100;
-gap = .3;
+gap = .2;
 joint_radius = 2.5;
 radius = 22;
 hand_length = 2;
+hand_angle = 65;
 
 
 thickness = joint_radius * 2;
@@ -14,7 +15,6 @@ hand_radius = radius - hand_length;
 hand_thickness = 4;
 hand_radius_1 = joint_radius + gap;
 hand_radius_2 = joint_radius + 2.5;
-
 
 module plate() {
     translate([0, 0, 5]) {
@@ -64,7 +64,7 @@ module hands() {
         }
 
         difference() {
-            linear_extrude(hand_thickness) ring(r1=hand_radius_1,r2=hand_radius_2, angle=[60,300], n=$fn);
+            linear_extrude(hand_thickness) ring(r1=hand_radius_1,r2=hand_radius_2, angle=[hand_angle,360-hand_angle], n=$fn);
             union() {
                 translate([0, 0, hand_thickness]) rounding_cylinder_mask(r=hand_radius_2, rounding=.5);
                 rotate([180, 0, 0]) rounding_cylinder_mask(r=hand_radius_2, rounding=.5);
@@ -72,8 +72,8 @@ module hands() {
                 rotate([180, 0, 0]) rounding_hole_mask(r=hand_radius_1, rounding=.5);
             }
         }
-        translate([hand_radius_1 * cos(60), -hand_radius_1 * sin(60), hand_thickness/2]) rotate([90, 0, 30]) hand_end();
-        translate([hand_radius_1 * cos(60), hand_radius_1 * sin(60), hand_thickness/2]) rotate([-90, 0, -30]) hand_end();
+        translate([hand_radius_1 * cos(hand_angle), -hand_radius_1 * sin(hand_angle), hand_thickness/2]) rotate([90, 0, 90-hand_angle]) hand_end();
+        translate([hand_radius_1 * cos(hand_angle), hand_radius_1 * sin(hand_angle), hand_thickness/2]) rotate([-90, 0, -(90-hand_angle)]) hand_end();
         difference() {
             xpos = -(hand_radius/2 + (hand_radius_2 + hand_radius_1) / 2);
             ypos = thickness / 2;
@@ -91,5 +91,7 @@ module hands() {
     translate([-radius-4, -(hand_radius_1 + hand_thickness), joint_radius]) rotate([90, 0, 180]) hand();
 }
 
-plate();
-hands();
+rotate([0, 90, 0]) {
+    plate();
+    hands();
+}
