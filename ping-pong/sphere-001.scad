@@ -2,12 +2,5 @@ $fn=50;
 
 use <modules/isocahedron.scad>
 
-scale(18) {
-    difference() {
-        difference() {
-            sphere(0.95);
-            sphere(0.88);
-        }
-        isocahedron(initial_depth=2,scale=0.7);
-    }
-}  
+scale(20) ball_type_1(2, 0.07, 0.3);
+
