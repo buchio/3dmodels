@@ -91,7 +91,7 @@ module hands() {
     translate([-radius-4, -(hand_radius_1 + hand_thickness), joint_radius]) rotate([90, 0, 180]) hand();
 }
 
-rotate([0, 90, 0]) {
+rotate([90, 0, 0]) {
     plate();
     hands();
 }
