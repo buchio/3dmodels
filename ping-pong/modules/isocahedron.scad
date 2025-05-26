@@ -1,34 +1,9 @@
 use <triangle.scad>
 
-module connect_points(point1, point2, radius) {
-  // 1. 2点の座標
-  start_point = point1;
-  end_point = point2;
-
-  // 2. 方向ベクトル
-  direction_vector = end_point - start_point;
-
-  // 3. 円柱の高さ (方向ベクトルの長さ)
-  height = norm(direction_vector);
-
-  // 4. 回転の計算
-  // 方向ベクトルを単位ベクトルに正規化
-  normalized_direction = direction_vector / height;
-
-  // 回転軸の計算 (upベクトルと方向ベクトルの外積)
-  rotation_axis = cross([0, 0, 1], normalized_direction);
-
-  // 回転角の計算 (upベクトルと方向ベクトルの内積からコサインを求め、アークコサインで角度を取得)
-  rotation_angle = acos([0, 0, 1] * normalized_direction);
-
-  // 5. 円柱の描画
-  translate(start_point) // 始点に移動
-  rotate(a = rotation_angle, v = rotation_axis) // 計算した軸と角度で回転
-  cylinder(h = height, r = radius, center = false); // 円柱を描画 (底面が原点)
-}
-
 function cent(v) = (norm(v) == 0) ? v : v / norm(v);
 function quarter(v1, v2) = cent(v1 + cent(v1+v2));
+function _dot(v1, v2) = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+function project_point_on_line(p1, p2, p3) = (p2 + _dot((p1-p2),(p3-p2)) / _dot((p3-p2),(p3-p2)) * (p3-p2));
 
 module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
     X = 0.525731112119133606;
@@ -50,13 +25,21 @@ module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
         if(depth == 0)
         {
             v123 = cent(v1+v2+v3);
-
             v1_123 = quarter(v1, v123);
             v2_123 = quarter(v2, v123);
             v3_123 = quarter(v3, v123);
-            echo("v1:", v1_123, "v2:", v2_123, "v3:", v3_123);
-            polyhedron([[0, 0, 0], v1_123, v2_123, v3_123], [[0, 1, 2], [1, 2, 3], [0, 1, 3], [0, 2, 3]]);
-            
+            if( type == 1 ) {
+                polyhedron([[0, 0, 0], v1_123, v2_123, v3_123], [[0, 1, 2], [0, 2, 3], [0, 3, 1], [1, 3, 2]]);
+            } else if (type == 2) {
+                p1 = v1 - (v123-v1)*.1;
+                p2 = v2 - (v123-v2)*.1;
+                p3 = v3 - (v123-v3)*.1;
+                polyhedron([[0, 0, 0], p1, p2, p3], [[0, 1, 2], [0, 2, 3], [0, 3, 1], [1, 3, 2]]);
+            } else if( type == 3 ) {
+                p2= project_point_on_line(v2_123, v2, v3);
+                p3= project_point_on_line(v3_123, v2, v3);
+                polyhedron([[0, 0, 0], v1_123, p2, p3], [[0, 1, 2], [0, 2, 3], [0, 3, 1], [1, 3, 2]]);
+            }
         } else if (depth == 1) {
             v12 = cent(v1 + v2);
             v23 = cent(v2 + v3);
@@ -95,4 +78,41 @@ module isocahedron(initial_depth=2, thickness=0.4, scale=0.5, type=1) {
     }
 };
 
-isocahedron(initial_depth=2, type=1, $fn=32);
+module ball_type_1(depth=2) {
+    scale(2) {
+        difference() {
+            difference() {
+                sphere(.5);
+                isocahedron(initial_depth=depth, type=1);
+            }
+            sphere(.45);
+        }
+    }
+};
+
+module ball_type_2(depth=2) {
+    scale(2) {
+        difference() {
+            intersection() {
+                sphere(.5);
+                isocahedron(initial_depth=depth, type=2);
+            }
+            sphere(.45);
+        }
+    }
+};
+
+module ball_type_3(depth=2) {
+    scale(2) {
+        difference() {
+            difference() {
+                sphere(.5);
+                isocahedron(initial_depth=depth, type=3);
+            }
+            sphere(.45);
+        }
+    }
+};
+
+$fn=64;
+ball_type_3(3);
