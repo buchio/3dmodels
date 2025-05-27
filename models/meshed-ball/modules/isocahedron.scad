@@ -79,46 +79,37 @@ module isocahedron(initial_depth=2, thickness=.3, type=1) {
     }
 };
 
-module ball_type_1(depth=2, wall=0.1, thickness=.3) {
-    scale(2) {
-        difference() {
+module isocahedoron_mesh(depth=2, wall=0.07, thickness=.3, type=1) {
+    if(type == 1) {
+        scale(2) {
             difference() {
-                sphere(.5);
-                isocahedron(initial_depth=depth, thickness=thickness, type=1);
+                difference() {
+                    sphere(.5);
+                    isocahedron(initial_depth=depth, thickness=thickness, type=1);
+                }
+                sphere(.5-(wall/2));
             }
-            sphere(.5-(wall/2));
         }
-    }
-};
-
-module ball_type_2(depth=2, wall=0.1, thickness=.3) {
-    scale(2) {
-        difference() {
-            intersection() {
-                sphere(.5);
-                isocahedron(initial_depth=depth, thickness=thickness, type=2);
-            }
-            sphere(.5-(wall/2));
-        }
-    }
-};
-
-module ball_type_3(depth=2, wall=0.1, thickness=.3) {
-    scale(2) {
-        difference() {
+    } else if(type == 2) {
+        scale(2) {
             difference() {
-                sphere(.5);
-                isocahedron(initial_depth=depth, thickness=thickness, type=3);
+                intersection() {
+                    sphere(.5);
+                    isocahedron(initial_depth=depth, thickness=thickness, type=2);
+                }
+                sphere(.5-(wall/2));
             }
-            sphere(.5-(wall/2));
+        }
+    } else if(type == 3) {
+        scale(2) {
+            difference() {
+                difference() {
+                    sphere(.5);
+                    isocahedron(initial_depth=depth, thickness=thickness, type=3);
+                }
+                sphere(.5-(wall/2));
+            }
         }
     }
 };
 
-$fn=64;
-translate([-3, 0, 0]) ball_type_1(1);
-translate([ 0, 0, 0]) ball_type_2(1);
-translate([ 3, 0, 0]) ball_type_3(1);
-translate([-3, 3, 0]) isocahedron(initial_depth=1, type=1);
-translate([ 0, 3, 0]) isocahedron(initial_depth=1, type=2);
-translate([ 3, 3, 0]) isocahedron(initial_depth=1, type=3);
