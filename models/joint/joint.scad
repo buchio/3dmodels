@@ -2,7 +2,7 @@ include <BOSL2/std.scad>
 
 // Parameters.
 $fn=100;
-gap = .2;
+gap = .3;
 joint_radius = 2.5;
 radius = 22;
 hand_length = 2;
@@ -12,9 +12,9 @@ hand_angle = 65;
 thickness = joint_radius * 2;
 slit_width = (joint_radius + gap) * 2;
 hand_radius = radius - hand_length;
-hand_thickness = 4;
+hand_thickness = 3.5;
 hand_radius_1 = joint_radius + gap;
-hand_radius_2 = joint_radius + 2.5;
+hand_radius_2 = joint_radius + 2;
 
 module plate() {
     translate([0, 0, 5]) {
@@ -57,8 +57,11 @@ module hands() {
 
         module hand_end() {
             right_half() {
-                convex_offset_extrude(bottom=os_circle(r=.5),top=os_circle(r=.5), height=hand_radius_2-hand_radius_1,steps=10) {
-                    circle(r=2);
+                convex_offset_extrude(bottom=os_circle(r=.5),
+                                    top=os_circle(r=.5), 
+                                    height=hand_radius_2-hand_radius_1,
+                                    steps=10) {
+                    circle(r=hand_thickness/2);
                 }
             }
         }
