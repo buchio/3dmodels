@@ -2,8 +2,8 @@ include <BOSL2/std.scad>
 include <BOSL2/threading.scad>
 $fn=16;
 ps = 15; // Pillar size
-pt = 1.6;  // Pillar sickness
-gap = 0.3; // 
+pt = 1.8;  // Pillar sickness
+gap = 0.25; // 
 
 
 rs = ps-gap*2; // rectangle size;
@@ -142,39 +142,44 @@ module cap() {
 }
 
 module pillar(height, hook_pos, hall_pos) {
-    top_height = height / 4;
-    middle_height = height / 4; 
-    bottom_height = height / 4;
-        
+
+    top_height = height - ps*2.5;
+    middle_height_1 = ps/2; 
+    middle_height_2 = ps; 
+    bottom_height = ps;
+
+    translate([0, 0, height]) cap();
+    rotate([180, 0, 0]) cap();
     
-    translate([0, 0, bottom_height+middle_height*2]) pillar_part(top_height, hall_pos=hall_pos);
-    translate([0, 0, bottom_height+middle_height]) pillar_part(top_height, hook_pos, hall_pos);
+    translate([0, 0, bottom_height+middle_height_1+middle_height_2]) pillar_part(top_height, hall_pos=hall_pos);
+    translate([0, 0, bottom_height+middle_height_2]) pillar_part(middle_height_1, hook_pos, hall_pos);
     translate([0, 0, bottom_height]) {
-        pillar_part(middle_height, hall_pos=hall_pos);
+        pillar_part(middle_height_2, hall_pos=hall_pos);
         intersection() {
-            pillar_part(middle_height, hook_pos, hook_only=true);
+            pillar_part(middle_height_2, hook_pos, hook_only=true);
             union() {
                 if( hook_pos[0] != 0 ) {
-                    pillar_hook_end(middle_height);
+                    pillar_hook_end(middle_height_2);
                 } 
                 if (hook_pos[1] != 0) {
-                    rotate(90) pillar_hook_end(middle_height);
+                    rotate(90) pillar_hook_end(middle_height_2);
                 } 
                 if (hook_pos[2] != 0) {
-                    rotate(180) pillar_hook_end(middle_height);
+                    rotate(180) pillar_hook_end(middle_height_2);
                 } 
                 if (hook_pos[3] != 0) {
-                    rotate(270) pillar_hook_end(middle_height);
+                    rotate(270) pillar_hook_end(middle_height_2);
                 }
             }
         }
     }
-    translate([0, 0, 0]) pillar_part(top_height, hall_pos=hall_pos);
+    translate([0, 0, 0]) pillar_part(bottom_height, hall_pos=hall_pos);
 }
 
-pillar(20, [0, 1, 0, 0], [1, 0, 0, 0]);
-//translate([0, 0, 0]) pillar(20, [0, 1, 0, 0], [1, 0, 0, 0]);
-//translate([ps, 0, 0]) pillar(20, [1, 1, 0, 0], [1, 0, 0, 0]);
-//translate([ps, -ps, 0]) pillar(20, [1, 0, 0, 0], [0, 1, 0, 0]);
-//translate([0, -ps, 0]) pillar(20, [0, 0, 0, 0], [1, 1, 0, 0]);
+height = 50;
+pillar(height, [0, 1, 0, 0], [1, 0, 0, 0]);
+translate([0, 0, 0]) pillar(height, [0, 1, 0, 0], [1, 0, 0, 0]);
+translate([ps, 0, 0]) pillar(height, [1, 1, 0, 0], [0, 0, 0, 0]);
+translate([ps, -ps, 0]) pillar(height, [1, 0, 0, 0], [0, 1, 0, 0]);
+translate([0, -ps, 0]) pillar(height, [0, 0, 0, 0], [1, 1, 0, 0]);
 
