@@ -113,6 +113,7 @@ module pillar_part(height, hook_pos=[0,0,0,0], hall_pos=[0,0,0,0], hook_only=fal
     linear_extrude(height) pillar_wall_with_hook(hook_pos, hall_pos);
 }
 
+
 module pillar_hook_end(height) {
    union() {
         translate([-rs/2-pt*1.5-gap*1.5, 0, height*3/4]) {
@@ -133,6 +134,12 @@ module pillar_hook_end(height) {
     }
 }
 
+module cap() {
+    difference() {
+        translate([0, 0, rs/4]) cuboid([rs, rs, rs/2], rounding=pt/2, except=BOT);
+        prismoid(size1=[rs-pt*2, rs-pt*2], size2=[pt, gap], h=rs/2-pt);
+    }
+}
 
 module pillar(height, hook_pos, hall_pos) {
     top_height = height / 4;
@@ -165,8 +172,9 @@ module pillar(height, hook_pos, hall_pos) {
     translate([0, 0, 0]) pillar_part(top_height, hall_pos=hall_pos);
 }
 
-translate([0, 0, 0]) pillar(20, [0, 1, 0, 0], [1, 0, 0, 0]);
-translate([ps, 0, 0]) pillar(20, [1, 1, 0, 0], [1, 0, 0, 0]);
-translate([ps, -ps, 0]) pillar(20, [1, 0, 0, 0], [0, 1, 0, 0]);
-translate([0, -ps, 0]) pillar(20, [0, 0, 0, 0], [1, 1, 0, 0]);
+pillar(20, [0, 1, 0, 0], [1, 0, 0, 0]);
+//translate([0, 0, 0]) pillar(20, [0, 1, 0, 0], [1, 0, 0, 0]);
+//translate([ps, 0, 0]) pillar(20, [1, 1, 0, 0], [1, 0, 0, 0]);
+//translate([ps, -ps, 0]) pillar(20, [1, 0, 0, 0], [0, 1, 0, 0]);
+//translate([0, -ps, 0]) pillar(20, [0, 0, 0, 0], [1, 1, 0, 0]);
 
