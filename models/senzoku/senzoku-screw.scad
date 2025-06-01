@@ -5,10 +5,10 @@ include <senzoku-logo.scad>
 
 
 
-$fn=128;
+$fn=64;
 
 height = 20;
-spiral_height = 12;
+spiral_height = 20;
 linear_extrude(height, twist=height/spiral_height*360) senzoku_logo_inner();
 translate([50, 0, 0]) {
     difference() {
