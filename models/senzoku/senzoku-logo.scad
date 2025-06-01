@@ -38,7 +38,6 @@ module wide_arc_polygon(outer_radius, inner_radius, start_angle, end_angle, fn =
 }
 
 $fn=64;
-//translate([0, 0, -1]) color("red") import("senzoku-logo.svg", center=true);
 
 module edge() {
     translate([.5, 0, 0]) {
@@ -48,9 +47,21 @@ module edge() {
         }
     }
 }
-module senzoku_logo() {
+
+module senzoku_logo_silhouette(offset=0) {
     union() {
-        wide_arc_polygon(22, 18, 0, 360);
+        translate([0, -5, 0]) {
+            circle(12+offset);
+        }
+        translate([-2, 10, 0]) {
+                circle(7+offset);
+        }
+    }
+}
+
+module senzoku_logo_inner() {
+    union() {
+        //wide_arc_polygon(22, 18, 0, 360);
         translate([0, -5, 0]) {
             wide_arc_polygon(12, 8, 20, 357);
             translate([1, -3, 0]) square([8, 3]);
@@ -67,5 +78,3 @@ module senzoku_logo() {
         }
     }
 }
-
-color("green", .3) linear_extrude(3) senzoku_logo();
