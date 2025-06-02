@@ -3,9 +3,9 @@ include <BOSL2/threading.scad>
 $fn=16;
 
 // --- Parameters ---
-pillar_size = 10;         // Outer size of pillar
-pillar_thickness = 1.1;   // Wall thickness of pillar
-clearance = 0.2;         // Gap/clearance for fitting
+pillar_size = 20;         // Outer size of pillar
+pillar_thickness = 2;   // Wall thickness of pillar
+clearance = 0.5;         // Gap/clearance for fitting
 
 rect_outer_size = pillar_size - clearance*2;
 hook_bar_width = pillar_thickness - clearance;
@@ -217,7 +217,7 @@ module pillar(total_height, hook_direction, hall_direction) {
     bottom_height = (total_height - pillar_size) / 2;
 
     // Top cap
-    translate([0, 0, total_height]) cap();
+    // translate([0, 0, total_height]) cap();
     // Bottom cap (flipped)
     rotate([180, 0, 0]) cap();
 
@@ -250,7 +250,7 @@ module pillar(total_height, hook_direction, hall_direction) {
 }
 
 // --- Example usage ---
-pillar_height = pillar_size*1.2;
+pillar_height = 30;
 translate([0, 0, 0]) pillar(pillar_height, [0, 1, 0, 0], [1, 0, 0, 0]);
 translate([pillar_size, 0, 0]) pillar(pillar_height, [1, 1, 0, 0], [0, 0, 0, 0]);
 translate([pillar_size, -pillar_size, 0]) pillar(pillar_height, [1, 0, 0, 0], [0, 1, 0, 0]);
