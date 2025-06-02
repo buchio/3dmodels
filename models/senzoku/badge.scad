@@ -11,5 +11,5 @@ height = 5;
 linear_extrude(height) senzoku_logo_inner();
 difference() {
     cylinder(height, r=21);
-    cylinder(height, r=16.9);
+    cylinder(height, r=16.8);
 }
