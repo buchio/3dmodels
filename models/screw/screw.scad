@@ -113,6 +113,7 @@ module corn_internal_thread() {
 }
 
 translate([0, blade_length, 0]) external_thread();
-translate([0, blade_length, 0]) spiral_internal_thread();
-//translate([0, -blade_length, 0]) corn_external_thread();
-//translate([0, -blade_length, 0]) corn_internal_thread();
+//translate([0, blade_length, 0]) spiral_internal_thread();
+translate([0, blade_length, 0]) straight_internal_thread();
+translate([0, -blade_length, 0]) corn_external_thread();
+translate([0, -blade_length, 0]) corn_internal_thread();
