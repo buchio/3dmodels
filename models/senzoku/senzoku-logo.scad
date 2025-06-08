@@ -78,3 +78,9 @@ module senzoku_logo_inner() {
         }
     }
 }
+
+senzoku_logo_inner();
+translate([50, 0, 0]) senzoku_logo_silhouette();
+
+
+

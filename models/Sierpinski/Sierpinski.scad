@@ -33,7 +33,7 @@ scale(2) {
     rotate([0, 0, 0]) {
         rotate([0, -atan(sqrt(2)), 0]) {
             rotate([0, 0, 45]) {
-                sierpinsky(3);
+                sierpinsky(4);
             }
         }
     }
