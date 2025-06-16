@@ -203,36 +203,49 @@ module pillar(total_height, hook_direction, hall_direction) {
     translate([0, 0, 0]) pillar_part(bottom_height, hall_direction=hall_direction);
 }
 
-// --- Example usage ---
-pillar_height = 100;
-translate([-pillar_size*2, -pillar_size*2, 0]) pillar(pillar_height, [0, 0, 0, 0], [1, 1, 0, 0]);
-translate([-pillar_size,   -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 0, 0], [1, 1, 0, 0]);
-translate([0,              -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size,    -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size*2,  -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 0, 0], [0, 1, 0, 0]);
+pillar_height = 50;
+translate([-pillar_size,   -pillar_size,   0]) pillar(pillar_height, [0, 0, 0, 0], [1, 1, 0, 0]);
+translate([0,              -pillar_size,   0]) pillar(pillar_height, [1, 0, 1, 0], [0, 1, 0, 0]);
+translate([pillar_size,    -pillar_size,   0]) pillar(pillar_height, [0, 0, 0, 0], [0, 1, 1, 0]);
 
-translate([-pillar_size*2, -pillar_size,   0]) pillar(pillar_height, [0, 1, 0, 0], [1, 1, 0, 0]);
-translate([-pillar_size,   -pillar_size,   0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([0,              -pillar_size,   0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size,    -pillar_size,   0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size*2,  -pillar_size,   0]) pillar(pillar_height, [1, 1, 0, 0], [0, 1, 0, 0]);
+translate([-pillar_size,   0,              0]) pillar(pillar_height, [0, 1, 0, 1], [1, 0, 0, 0]);
+translate([0,              0,              0]) pillar(pillar_height, [1, 1, 1, 1], [0, 0, 0, 0]);
+translate([pillar_size,    0,              0]) pillar(pillar_height, [0, 1, 0, 1], [0, 0, 1, 0]);
 
-translate([-pillar_size*2, 0,              0]) pillar(pillar_height, [0, 1, 0, 0], [1, 1, 0, 0]);
-translate([-pillar_size,   0,              0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([0,              0,              0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size,    0,              0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size*2,  0,              0]) pillar(pillar_height, [1, 1, 0, 0], [0, 1, 0, 0]);
+translate([-pillar_size,   pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 0], [1, 0, 0, 1]);
+translate([0,              pillar_size,    0]) pillar(pillar_height, [1, 0, 1, 0], [0, 0, 0, 1]);
+translate([pillar_size,    pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 0], [0, 0, 1, 1]);
 
-translate([-pillar_size*2, pillar_size,    0]) pillar(pillar_height, [0, 1, 0, 0], [1, 1, 0, 0]);
-translate([-pillar_size,   pillar_size,    0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([0,              pillar_size,    0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size,    pillar_size,    0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-translate([pillar_size*2,  pillar_size,    0]) pillar(pillar_height, [1, 1, 0, 0], [0, 1, 0, 0]);
 
-translate([-pillar_size*2, pillar_size*2,  0]) pillar(pillar_height, [0, 1, 0, 0], [1, 0, 0, 0]);
-translate([-pillar_size,   pillar_size*2,  0]) pillar(pillar_height, [1, 1, 0, 0], [1, 0, 0, 0]);
-translate([0,              pillar_size*2,  0]) pillar(pillar_height, [1, 1, 0, 0], [1, 0, 0, 0]);
-translate([pillar_size,    pillar_size*2,  0]) pillar(pillar_height, [1, 1, 0, 0], [1, 0, 0, 0]);
-translate([pillar_size*2,  pillar_size*2,  0]) pillar(pillar_height, [1, 1, 0, 0], [0, 0, 0, 0]);
+
+//translate([-pillar_size*2, -pillar_size*2, 0]) pillar(pillar_height, [0, 0, 0, 0], [1, 1, 0, 0]);
+//translate([-pillar_size,   -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 0, 0], [1, 1, 0, 0]);
+//translate([0,              -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 1, 0], [0, 1, 0, 0]);
+//translate([pillar_size,    -pillar_size*2, 0]) pillar(pillar_height, [0, 0, 1, 0], [0, 1, 1, 0]);
+//translate([pillar_size*2,  -pillar_size*2, 0]) pillar(pillar_height, [0, 0, 0, 0], [0, 1, 1, 0]);
+//
+//translate([-pillar_size*2, -pillar_size,   0]) pillar(pillar_height, [0, 1, 0, 0], [1, 1, 0, 0]);
+//translate([-pillar_size,   -pillar_size,   0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
+//translate([0,              -pillar_size,   0]) pillar(pillar_height, [1, 1, 1, 0], [0, 1, 0, 0]);
+//translate([pillar_size,    -pillar_size,   0]) pillar(pillar_height, [0, 1, 1, 0], [0, 1, 1, 0]);
+//translate([pillar_size*2,  -pillar_size,   0]) pillar(pillar_height, [0, 1, 0, 0], [0, 1, 1, 0]);
+//
+//translate([-pillar_size*2, 0,              0]) pillar(pillar_height, [0, 1, 0, 1], [1, 0, 0, 0]);
+//translate([-pillar_size,   0,              0]) pillar(pillar_height, [1, 1, 0, 1], [1, 0, 0, 0]);
+//translate([0,              0,              0]) pillar(pillar_height, [1, 1, 1, 1], [0, 0, 0, 0]);
+//translate([pillar_size,    0,              0]) pillar(pillar_height, [0, 1, 1, 1], [0, 0, 1, 0]);
+//translate([pillar_size*2,  0,              0]) pillar(pillar_height, [0, 1, 0, 1], [0, 0, 1, 0]);
+//
+//translate([-pillar_size*2, pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 1], [1, 0, 0, 1]);
+//translate([-pillar_size,   pillar_size,    0]) pillar(pillar_height, [1, 0, 0, 1], [1, 0, 0, 1]);
+//translate([0,              pillar_size,    0]) pillar(pillar_height, [1, 0, 1, 1], [0, 0, 0, 1]);
+//translate([pillar_size,    pillar_size,    0]) pillar(pillar_height, [0, 0, 1, 1], [0, 0, 1, 1]);
+//translate([pillar_size*2,  pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 1], [0, 0, 1, 1]);
+//
+//translate([-pillar_size*2, pillar_size*2,  0]) pillar(pillar_height, [0, 0, 0, 0], [1, 0, 0, 1]);
+//translate([-pillar_size,   pillar_size*2,  0]) pillar(pillar_height, [1, 0, 0, 0], [1, 0, 0, 1]);
+//translate([0,              pillar_size*2,  0]) pillar(pillar_height, [1, 0, 1, 0], [0, 0, 0, 1]);
+//translate([pillar_size,    pillar_size*2,  0]) pillar(pillar_height, [0, 0, 1, 0], [0, 0, 1, 1]);
+//translate([pillar_size*2,  pillar_size*2,  0]) pillar(pillar_height, [0, 0, 0, 0], [0, 0, 1, 1]);
 
 
