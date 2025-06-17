@@ -53,7 +53,7 @@ translate([0, -5, 0]) {
     rotate([0, 0, 25]) {
         rounded_arc(10, 2.5, 345, [true, true]);
     }
-    translate([6, 0, 0] ) rounded_cyl(10, 2.5, [true, true]);
+    translate([6, 0, 0] ) rounded_cyl(12, 2.5, [false, true]);
 }
 translate([-3, -1, 0]) rounded_arc(5.3, 2.5, 360, [false, false]);
 translate([-3, 9.5, 0]) rounded_arc(5, 2.5, 290, [true, false]);
