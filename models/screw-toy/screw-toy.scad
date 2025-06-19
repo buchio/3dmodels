@@ -1,6 +1,6 @@
 include <BOSL2/std.scad>
 
-$fn=128;
+$fn=64;
 
 
 module flower(a, r, t) {
@@ -30,13 +30,33 @@ module flower(a, r, t) {
     hexagon(ir=a);
 }
 
-color("red", .5)
+//circle(r=12);
+//translate([0, 0, 1])
+//color("red") flower(8., .7, 20);
+//circle(r=12);
+//translate([0, 0, 2])
+//rotate([0, 0, 0])
+//color("green") hexagon(d=20);
 
-translate([30, 9, 9])
+h1 = 42;
+h2 = 40;
+tw = 13;
+translate([30, 0, 0])
 difference() {
     cylinder(r=12, h=44);
-    linear_extrude(40, twist=720) flower(9, .5, 20);
+    {
+        translate([0, 0, 4]) linear_extrude(h1, twist=tw*h1) flower(8.2, .7, 20);
+        translate([0, 12, 0]) cylinder(r=.5, h=44);
+    }
 }
 
-cylinder(r=12, h=10);
-linear_extrude(40, twist=720) hexagon(id=18);
+difference() {
+    cylinder(r=12, h=10);
+    translate([0, 12, 0]) cylinder(r=.5, h=10);
+}
+translate([0, 0, 10]) {
+    difference() {
+        linear_extrude(h2, twist=tw*h2) hexagon(d=20);
+        cylinder(r=6.5, h=h2);
+    }
+}
