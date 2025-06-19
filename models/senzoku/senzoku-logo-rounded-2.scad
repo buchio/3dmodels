@@ -2,10 +2,45 @@ include <BOSL2/std.scad>
 
 $fn=100;
 
+module mask(size, rounding) {
+    l0 = size[0]*1.05;
+    l1 = size[1]*1.05;
+    r = l0 * rounding;
+    rounding_edge_mask(l=l1, r=r);
+    translate([l0, 0, 0])
+    rotate([0, 0, 90])
+    rounding_edge_mask(l1, r=r);
+    translate([l0/2, 0, l1/2])
+    rotate([0, 90, 0])
+    rounding_edge_mask(l0, r=r);
+    translate([l0/2, 0, -l1/2])
+    rotate([0, -90, 0])
+    rounding_edge_mask(l=l0, r=r);
+ 
+    translate([0, 0, -l1/2])
+    rounding_corner_mask(r=r);
+    translate([0, 0, l1/2])
+    rotate([0, 90, 0])
+    rounding_corner_mask(r=r);
+    translate([l0, 0, l1/2])
+    rotate([0, 90, 90])
+    rounding_corner_mask(r=r);
+    translate([l0, 0, -l1/2])
+    rotate([0, -90, 0])
+    rounding_corner_mask(r=r);
+}
+
 module rounded_arc(r, size, angle, rounding) {
-    rotate_extrude(angle=angle) {
-        translate([r, 0, 0]) {
-            rect(size, rounding=size[0]*rounding);
+    difference() {
+        rotate_extrude(angle=angle) {
+            translate([r, 0, 0]) {
+                rect(size, rounding=size[0]*rounding);
+            }
+        }
+        if ( angle != 360 ) {
+            translate([r-(size[0]*1.05)/2, 0, 0]) {
+                mask(size, rounding);
+            }
         }
     }
 }
@@ -49,4 +84,5 @@ module senzoku_logo(size, thickness, height, rounding) {
     
 }
 
-senzoku_logo(20, 2, 10, .3);
+senzoku_logo(20, 4, 10, .3);
+
