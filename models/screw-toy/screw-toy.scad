@@ -38,25 +38,26 @@ module flower(a, r, t) {
 //rotate([0, 0, 0])
 //color("green") hexagon(d=20);
 
+r = 13;
 h1 = 42;
 h2 = 40;
-tw = 13;
+tw = -13.1;
 translate([30, 0, 0])
 difference() {
-    cylinder(r=12, h=44);
+    cylinder(r=r, h=44);
     {
         translate([0, 0, 4]) linear_extrude(h1, twist=tw*h1) flower(8.2, .7, 20);
-        translate([0, 12, 0]) cylinder(r=.5, h=44);
+        translate([0, r, 0]) cylinder(r=.5, h=44);
     }
 }
 
 difference() {
-    cylinder(r=12, h=10);
-    translate([0, 12, 0]) cylinder(r=.5, h=10);
+    cylinder(r=r, h=10);
+    translate([0, r, 0]) cylinder(r=.5, h=10);
 }
-translate([0, 0, 10]) {
+translate([0, 0, 8]) {
     difference() {
-        linear_extrude(h2, twist=tw*h2) hexagon(d=20);
-        cylinder(r=6.5, h=h2);
+        linear_extrude(h1, twist=tw*h1) hexagon(d=20);
+        cylinder(r=r/2, h=h1);
     }
 }
