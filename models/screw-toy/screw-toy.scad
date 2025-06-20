@@ -54,6 +54,7 @@ translate([-15, 0, 0]) {
 }
 
 translate([15, 0, 0]) {
+    rotate([0, 0, -8])
     difference() {
         cyl();
         translate([0, 0, 55/2+10]) cube([26, 26, 55], center=true);
@@ -61,7 +62,7 @@ translate([15, 0, 0]) {
     difference() {
         linear_extrude(h, twist=tw*h) hexagon(d=20);
         {
-            translate([0, 0, h]) cube([r*2, r*2, 6], center=true);
+            translate([0, 0, h]) cube([r*2, r*2, 10], center=true);
             cube([r*2, r*2, 8], center=true);
         }
     }
