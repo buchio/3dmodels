@@ -8,21 +8,9 @@
 // You can customize the parameters below.
 // 以下のパラメータを自由に調整してください。
 
-// Main Cylinder Parameters
-cylinder_radius = 40; // 円筒の半径
-cylinder_height = 100; // 円筒の高さ
-
-// Path Parameters
-// 「展開図」に描く円のパラメータ
-path_radius = 25;      // 展開図上での円の半径 (mm)
-path_center_height = 0;// 円の中心の高さ (Z座標)
-path_thickness = 2;    // パスの太さ (断面の半径)
-path_fn = 100;         // パスを描画するための解像度
-
-
 // --- Module to create the wrapped circle path ---
 // --- 巻き付けた円形パスを生成するモジュール ---
-module WrappedCircle(cyl_r, path_r, path_z, thickness, p_fn) {
+module WrappedCircle(cyl_r, path_r, thickness, p_fn) {
 
     // Helper function to map a 2D point to the cylinder's surface
     // 2D座標を円筒表面にマッピング（巻き付け）するヘルパー関数
@@ -31,7 +19,7 @@ module WrappedCircle(cyl_r, path_r, path_z, thickness, p_fn) {
             // 2DのX座標 -> 円周に沿った距離 -> 角度
             angle = (p[0] / cyl_r) * (180 / PI),
             // 2DのY座標 -> 高さ (Z)
-            z_pos = path_z + p[1]
+            z_pos = p[1]
         )
         // 3D直交座標に変換して返す
         [cyl_r * cos(angle), cyl_r * sin(angle), z_pos];
@@ -71,47 +59,45 @@ module WrappedCircle(cyl_r, path_r, path_z, thickness, p_fn) {
 }
 
 
-// --- Example 1: Engraving a circular groove ---
-// --- 例1: 円形の溝を彫る ---
+// Main Cylinder Parameters
+cylinder_radius = 13; // 円筒の半径
+cylinder_height = 54; // 円筒の高さ
 
-// We move this model to the left.
-// モデルを左側に移動します。
-translate([-cylinder_radius-10, 0, 0]) {
-    difference() {
-        // Base cylinder
-        cylinder(h = cylinder_height, r = cylinder_radius, center=true, $fn=100);
+// Path Parameters
+// 「展開図」に描く円のパラメータ
+path_radius = 6.5;      // 展開図上での円の半径 (mm)
+path_center_height = 0;// 円の中心の高さ (Z座標)
+path_thickness = .5;    // パスの太さ (断面の半径)
+path_fn = 100;         // パスを描画するための解像度
 
-        // Create the groove by subtracting the wrapped circle
-        // 巻き付けた円を引き算して溝を作成
-        WrappedCircle(
-            cyl_r = cylinder_radius,
-            path_r = path_radius,
-            path_z = path_center_height,
-            thickness = path_thickness,
-            p_fn = path_fn
-        );
-    }
-}
+//    cylinder(h = cylinder_height, r = cylinder_radius, center=true);
+//    {
+//        for (y = [-path_radius*4:path_radius*2:cylinder_height+path_radius*2]) {
+//            translate([0, 0, y]) {
+//                for (t = [0:60:300]) {
+//                    translate([0, 0, -path_radius])
+//                    rotate([0, 0, t]) 
+//                    wrapped_circle(path_radius, cylinder_radius, path_thickness);
+//                    rotate([0, 0, t+30]) 
+//                    wrapped_circle(path_radius, cylinder_radius, path_thickness);
+//                }
+//            }
+//        }
+//    }
 
 
-// --- Example 2: Adding a circular bump ---
-// --- 例2: 円形の突起を追加する ---
-
-// We move this model to the right.
-// モデルを右側に移動します。
-translate([cylinder_radius+10, 0, 0]) {
-    union() {
-        // Base cylinder
-        cylinder(h = cylinder_height, r = cylinder_radius, center=true, $fn=100);
-
-        // Create the bump by adding the wrapped circle
-        // 巻き付けた円を足し算して突起を作成
-        WrappedCircle(
-            cyl_r = cylinder_radius,
-            path_r = path_radius,
-            path_z = path_center_height,
-            thickness = path_thickness,
-            p_fn = path_fn
-        );
+difference() {
+    cylinder(h = cylinder_height, r = cylinder_radius, center=true, $fn=100);
+    {
+        for (z = [-path_radius*4:path_radius*2:cylinder_height+path_radius*2]) {
+            translate([0, 0, z])
+            for (t = [0:60:300]) {
+                rotate([0, 0, t])
+                WrappedCircle(cyl_r = cylinder_radius, path_r = path_radius, thickness = path_thickness,  p_fn = path_fn);
+                rotate([0, 0, t+30])
+                translate([0, 0, path_radius])
+                WrappedCircle(cyl_r = cylinder_radius, path_r = path_radius, thickness = path_thickness,  p_fn = path_fn);
+            }
+        }
     }
 }

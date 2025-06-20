@@ -26,24 +26,60 @@ r = 13;
 h = 55;
 tw = -13.1;
 
-translate([-20, -20, 0])
-linear_extrude(h, twist=tw*h) flower(8.2, .7, 20);
 
-translate([20, -20, 0])
-linear_extrude(h, twist=tw*h) hexagon(d=20);
-
-
-translate([-20, 20, 0])
-difference() {
-    cylinder(r=r, h=h);
-    linear_extrude(h, twist=tw*h) flower(8.2, .7, 20);
+module cyl() {
+    translate([0, 0, 55/2])
+    import("cylinder.stl");
+    cylinder(r=r, h=1);
+    translate([0, 0, 54])
+    cylinder(r=r, h=1);
 }
 
-translate([20, 20, 0])
-union() {
-    cylinder(r=r, h=h);
-    linear_extrude(h, twist=tw*h) hexagon(d=20);
+translate([-15, 0, 0]) {
+    translate([0, 0, (h-10)/2])
+    rotate([180, 0, 0])
+    translate([0, 0, -(h-10)/2-10])
+    difference() {
+        difference() {
+            cyl();
+            translate([0, 0, 5]) cube([26, 26, 10], center=true);
+        }
+        difference() {
+            linear_extrude(h, twist=tw*h) flower(8.2, .7, 20);
+            {
+                translate([0, 0, h]) cube([r*2, r*2, 5], center=true);
+            }
+        }
+    }
 }
+
+translate([15, 0, 0]) {
+    difference() {
+        cyl();
+        translate([0, 0, 55/2+10]) cube([26, 26, 55], center=true);
+    }
+    difference() {
+        linear_extrude(h, twist=tw*h) hexagon(d=20);
+        {
+            translate([0, 0, h]) cube([r*2, r*2, 6], center=true);
+            cube([r*2, r*2, 8], center=true);
+        }
+    }
+}
+
+
+
+//translate([-20, 20, 0])
+//difference() {
+//    cyl();
+//    linear_extrude(h, twist=tw*h) flower(8.2, .7, 20);
+//}
+//
+//translate([20, 20, 0])
+//union() {
+//    cyl();
+//    linear_extrude(h, twist=tw*h) hexagon(d=20);
+//}
 
 //translate([30, 0, 0])
 //difference() {
