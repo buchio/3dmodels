@@ -29,7 +29,8 @@ tw = -13.1;
 
 module cyl() {
     translate([0, 0, 55/2])
-    import("cylinder.stl");
+    //import("cylinder_hemp.stl");
+    import("cylinder_shippou.stl");
     cylinder(r=r, h=1);
     translate([0, 0, 54])
     cylinder(r=r, h=1);
@@ -54,7 +55,7 @@ translate([-15, 0, 0]) {
 }
 
 translate([15, 0, 0]) {
-    rotate([0, 0, -8])
+    rotate([0, 0, -7.5])
     difference() {
         cyl();
         translate([0, 0, 55/2+10]) cube([26, 26, 55], center=true);
@@ -64,40 +65,7 @@ translate([15, 0, 0]) {
         {
             translate([0, 0, h]) cube([r*2, r*2, 10], center=true);
             cube([r*2, r*2, 8], center=true);
+            cylinder(r=r/2, h=h);
         }
     }
 }
-
-
-
-//translate([-20, 20, 0])
-//difference() {
-//    cyl();
-//    linear_extrude(h, twist=tw*h) flower(8.2, .7, 20);
-//}
-//
-//translate([20, 20, 0])
-//union() {
-//    cyl();
-//    linear_extrude(h, twist=tw*h) hexagon(d=20);
-//}
-
-//translate([30, 0, 0])
-//difference() {
-//    cylinder(r=r, h=44);
-//    {
-//        translate([0, 0, 4]) linear_extrude(h1, twist=tw*h1) flower(8.2, .7, 20);
-//        translate([0, r, 0]) cylinder(r=.5, h=44);
-//    }
-//}
-//
-//difference() {
-//    cylinder(r=r, h=10);
-//    translate([0, r, 0]) cylinder(r=.5, h=10);
-//}
-//translate([0, 0, 8]) {
-//    difference() {
-//        linear_extrude(h1, twist=tw*h1) hexagon(d=20);
-//        cylinder(r=r/2, h=h1);
-//    }
-//}
