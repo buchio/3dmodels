@@ -138,7 +138,7 @@ module shippou(cylinder_radius, cylinder_height, path_thickness) {
         }
     }
 }
-//shippou(13, 54, .5);
+shippou(13, 54, .5);
 
 // Hemp Cylinder Parameters
 // cylinder_radius: 円筒の半径
@@ -163,4 +163,4 @@ module hemp(cylinder_radius, cylinder_height, path_thickness) {
         }
     }
 }
-hemp(13, 54, .5);
+//hemp(13, 54, .5);
