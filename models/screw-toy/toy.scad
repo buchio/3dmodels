@@ -1,4 +1,5 @@
 include <BOSL2/std.scad>
+use <cylinder.scad>
 
 $fn=64;
 
@@ -28,9 +29,8 @@ tw = -13.1;
 
 
 module cyl() {
-    translate([0, 0, 55/2])
-    //import("cylinder_hemp.stl");
-    import("cylinder_shippou.stl");
+    //translate([0, 0, 55/2]) shippou(13, 54, .5);
+    translate([0, 0, 55/2]) hemp(13, 54, .5);
     //cylinder(r=r, h=55);
     
     cylinder(r=r, h=1);
@@ -38,10 +38,14 @@ module cyl() {
     cylinder(r=r, h=1);
 }
 
-translate([-15, 0, 0]) {
-    translate([0, 0, (h-10)/2])
-    rotate([180, 0, 0])
-    translate([0, 0, -(h-10)/2-10]) {
+
+tp = [15, 0, (h-10)/2, 180, -12.5];
+//tp = [0, 10, 0, 0, 0];
+
+translate([-tp[0], 0, tp[1]]) {
+    translate([0, 0, tp[2]])
+    rotate([tp[3], 0, 0])
+    translate([0, 0, -tp[2]-10]) {
         difference() {
             difference() {
                 cyl();
@@ -60,8 +64,8 @@ translate([-15, 0, 0]) {
     }
 }
 
-translate([15, 0, 0]) {
-    rotate([0, 0, -7.5])
+translate([tp[0], 0, 0]) {
+    rotate([0, 0, tp[4]])
     difference() {
         cyl();
         {
