@@ -79,6 +79,8 @@ module WrappedHemp(cyl_r, path_r, thickness, p_fn) {
                 }
             }
         }
+        translate([cyl_r, 0, r/2]) sphere(r/6);
+        //translate([cyl_r, 0, -r/2]) sphere(r/6);
     }
 }
 
@@ -105,7 +107,7 @@ module WrappedCircle(cyl_r, path_r, thickness, p_fn) {
     }
 }
 
-$fn=32;
+$fn=64;
 
 //cylinder(h = 54, r = 13, center=true);
 
@@ -121,7 +123,6 @@ $fn=32;
 // path_thickness : パスの太さ (断面の半径)
 module shippou(cylinder_radius, cylinder_height, path_thickness) {
     path_radius = cylinder_radius / 2;  // 展開図上での円の半径 (mm)
-    path_fn = 100;                      // パスを描画するための解像度
     difference() {
         cylinder(h = cylinder_height, r = cylinder_radius, center=true);
         {
@@ -138,29 +139,31 @@ module shippou(cylinder_radius, cylinder_height, path_thickness) {
         }
     }
 }
-shippou(13, 54, .5);
+//shippou(13, 54, .5);
 
 // Hemp Cylinder Parameters
 // cylinder_radius: 円筒の半径
 // cylinder_height: 円筒の高さ
 // path_thickness : パスの太さ (断面の半径)
 module hemp(cylinder_radius, cylinder_height, path_thickness) {
-    path_radius = cylinder_radius * .61;  // 展開図上での円の半径 (mm)
-    path_fn = 100;                      // パスを描画するための解像度
-    difference() {
+    path_radius = cylinder_radius * .6;  // 展開図上での円の半径 (mm)
+    intersection() {
         cylinder(h = cylinder_height, r = cylinder_radius, center=true);
-        {
-            for (z = [-(cylinder_height/2 + path_radius/2):path_radius:cylinder_height/2+path_radius/2]) {
-                translate([0, 0, z])
-                for (t = [0:60:300]) {
-                    rotate([0, 0, t])
-                    WrappedHemp(cyl_r = cylinder_radius, path_r = path_radius, thickness = path_thickness,  p_fn = $fn);
-                    rotate([0, 0, t+30])
-                    translate([0, 0, path_radius/2])
-                    WrappedHemp(cyl_r = cylinder_radius, path_r = path_radius, thickness = path_thickness,  p_fn = $fn);
+        union() {
+            cylinder(h = cylinder_height, r = cylinder_radius-path_thickness*1.5, center=true);
+            {
+                for (z = [-(cylinder_height/2 + path_radius/2):path_radius:cylinder_height/2+path_radius/2]) {
+                    translate([0, 0, z])
+                    for (t = [0:60:300]) {
+                        rotate([0, 0, t])
+                        WrappedHemp(cyl_r = cylinder_radius-path_thickness, path_r = path_radius, thickness = path_thickness,  p_fn = $fn);
+                        rotate([0, 0, t+30])
+                        translate([0, 0, path_radius/2])
+                        WrappedHemp(cyl_r = cylinder_radius-path_thickness, path_r = path_radius, thickness = path_thickness,  p_fn = $fn);
+                    }
                 }
             }
         }
     }
 }
-//hemp(13, 54, .5);
+hemp(13, 54, .4);
