@@ -78,7 +78,7 @@ translate([tp[0], 0, 0]) {
     difference() {
         linear_extrude(h, twist=tw*h) hexagon(d=20);
         {
-            cube([r*2, r*2, 8], center=true);
+            translate([0, 0, h]) cube([r*2, r*2, 8], center=true);
             cylinder(r=r/2, h=h);
         }
     }
