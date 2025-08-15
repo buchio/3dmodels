@@ -1,2 +1,4 @@
 .DS_Store
+/models/*/*.stl
+*.3mf
 
