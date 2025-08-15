@@ -10,19 +10,23 @@ module right_triangle(side1,side2,corner_radius,triangle_height){
 $fn=20;
 
 
-h=6;
-w=12;
-s=10;
+t=8;
+r=5;
+h=60;
+w=120;
+s=100;
 
 rotate([0, -90, 0]) {
     translate([0, 0, 0])
-    right_triangle(h, w, .5, 1);
-    translate([0, 0, s-1])
-    right_triangle(h, w, .5, 1);
+    right_triangle(h, w, r, t);
+    translate([0, 0, s-t])
+    right_triangle(h, w, r, t);
 
-    translate([.5, .5, 0]) cylinder(h=s, r=.5);
-    //translate([h-.5, .5, 0]) cylinder(h=s, r=.5);
-    translate([.5, w-.5, 0]) cylinder(h=s, r=.5);
+    translate([r, r, 0]) cylinder(h=s, r=r);
+    translate([r, w/2, 0]) cylinder(h=s, r=r);
+    translate([h-r, r, 0]) cylinder(h=s, r=r);
+    translate([h/2, w/2, 0]) cylinder(h=s, r=r);
+    translate([r, w-r, 0]) cylinder(h=s, r=r);
 
-    translate([.4, w-.45, 0]) rotate([0, 0, 25]) cube([1.6, .4, s]);
+    translate([4, w-4.5, 0]) rotate([0, 0, 25]) cube([16, 4, s]);
 }
