@@ -1,0 +1,1 @@
+spiral vase Sierpinski pyramid (Openscad) by aeropic on Thingiverse: https://www.thingiverse.com/thing:2573402

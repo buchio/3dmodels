@@ -1,0 +1,5 @@
+$fn=50;
+
+use <modules/isocahedron.scad>
+
+ball_type_1(2, 0.07, 0.3);

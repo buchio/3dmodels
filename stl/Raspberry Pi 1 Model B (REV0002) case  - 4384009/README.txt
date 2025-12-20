@@ -1,0 +1,4 @@
+Raspberry Pi 1 Model B (REV0002) case  by ardae on Thingiverse: https://www.thingiverse.com/thing:4384009
+
+Summary:
+What kind of Raspberry Pi do I need?This case is for early edition Raspberry Pi 1 model B. This early pi's have hard pointy corners (not rounded like late models), only 26 gpio pins and no mounting holes on pcb. MiniUsb port orientation is also different. They are called "Rev 0002", 2011-2012 release. A pcb image is provided in the gallery.PartsThis case consists of two parts. A bottom and top part, those must be printed separately and they hopefully lock on together without any screws or glues needed.  Features:All pinouts and ribbon connectors have a little oppening on top of the case.SDCard mount has also a circular support to protect sdcard from impact.A fake rack for secondary/spare sd card.There are enough openings to allow air flow.Compact design 

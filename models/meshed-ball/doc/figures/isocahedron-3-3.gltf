@@ -1,0 +1,134 @@
+{
+    "asset": {
+        "version": "2.0",
+        "generator": "Open Asset Import Library (assimp v5.4.0)"
+    },
+    "extensionsUsed": [
+        "KHR_materials_specular",
+        "KHR_materials_volume",
+        "FB_ngon_encoding"
+    ],
+    "accessors": [
+        {
+            "bufferView": 0,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 13164,
+            "type": "VEC3",
+            "max": [
+                0.9941539764404297,
+                0.9941539764404297,
+                0.9941539764404297
+            ],
+            "min": [
+                -0.9941539764404297,
+                -0.9941539764404297,
+                -0.9941539764404297
+            ]
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 13164,
+            "type": "VEC3",
+            "max": [
+                0.9984239935874939,
+                0.9984239935874939,
+                0.9984241127967834
+            ],
+            "min": [
+                -0.9984239935874939,
+                -0.9984239935874939,
+                -0.9984241127967834
+            ]
+        },
+        {
+            "bufferView": 2,
+            "byteOffset": 0,
+            "componentType": 5125,
+            "count": 14112,
+            "type": "SCALAR",
+            "max": [
+                13163
+            ],
+            "min": [
+                0
+            ]
+        }
+    ],
+    "buffers": [
+        {
+            "byteLength": 372384,
+            "uri": "isocahedron-3-3.bin"
+        }
+    ],
+    "bufferViews": [
+        {
+            "buffer": 0,
+            "byteOffset": 0,
+            "byteLength": 157968,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 157968,
+            "byteLength": 157968,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 315936,
+            "byteLength": 56448,
+            "target": 34963
+        }
+    ],
+    "materials": [
+        {
+            "name": "DefaultMaterial",
+            "pbrMetallicRoughness": {
+                "metallicFactor": 0.0
+            },
+            "extensions": {
+                "KHR_materials_specular": {
+                    "specularFactor": 1.0
+                }
+            }
+        }
+    ],
+    "meshes": [
+        {
+            "name": "OpenSCAD_Model",
+            "primitives": [
+                {
+                    "mode": 4,
+                    "material": 0,
+                    "indices": 2,
+                    "attributes": {
+                        "POSITION": 0,
+                        "NORMAL": 1
+                    }
+                }
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "children": [
+                1
+            ]
+        },
+        {
+            "name": "OpenSCAD_Model",
+            "mesh": 0
+        }
+    ],
+    "scenes": [
+        {
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "scene": 0
+}
