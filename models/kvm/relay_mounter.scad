@@ -34,12 +34,13 @@ module single_relay_mount(relay_width=26,relay_height=50, thickness=3) {
     }
 }
 
-//translate([-60, 0, 0]) single_relay_mount();
-//translate([-20, 0, 0]) single_relay_mount();
-//translate([20, 0, 0]) single_relay_mount();
-//translate([60, 0, 0]) single_relay_mount();
-
-thickness=.5;
+color("green") {
+    translate([-64, 0, 0]) single_relay_mount();
+    translate([-22, 0, 0]) single_relay_mount();
+    translate([22, 0, 0]) single_relay_mount();
+    translate([64, 0, 0]) single_relay_mount();
+}
+thickness=3;
 
 difference() {
     union() {
