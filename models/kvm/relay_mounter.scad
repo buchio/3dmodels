@@ -1,3 +1,6 @@
+include <BOSL2/std.scad>
+include <BOSL2/screws.scad>
+
 
 $fn=20;
 
@@ -25,9 +28,8 @@ module punching_slate( plate_w, plate_h, thickness, hole_rad, pitch, center=fals
         }
     }
 }
-
 module pillar() {
-    translate([0, 0, 5]) cylinder(10, r=1.3, center=true);
+    translate([0, 0, 6]) screw(spec="M3", l=10, slop=0.15, $fn=64);
     translate([0, 0, 3]) cylinder(6, r=3, center=true);
 }
 
