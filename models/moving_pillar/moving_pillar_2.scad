@@ -1,4 +1,4 @@
-$fn = 40;
+$fn = 50;
 
 // --- ギア・機構パラメータ ---
 z       = 16;            // 歯数（4の倍数にすると45度対角で完璧に噛み合う）
@@ -6,8 +6,8 @@ r_pitch = 33;            // ピッチ円半径（瞳のサイズに合わせた�
 d       = r_pitch * 2;   // ギア同士の中心間距離
 l       = sqrt(2) * d;   // 正方格子の1辺（対角距離が d になる間隔）
 
-nx = 1;
-ny = 1;
+nx = 0;
+ny = 0;
 
 // 四隅グループ
 for (x = [0:nx], y = [0:ny])
@@ -21,19 +21,23 @@ for (x = [0:nx-1], y = [0:ny-1])
 
 translate([(nx+1)*r_pitch*2+100, 0, 0]) {        
 
-translate([-r_pitch, -r_pitch, 0])
+translate([-l/2, -l/2, 0])
                 linear_extrude(height = 10, center = false, convexity = 10, twist = 0)
-square([(nx+2)*r_pitch*2, (ny+2)*r_pitch*2]);
+                square([(nx+1)*l, (ny+1)*l]);
 
 // 四隅グループ
 for (x = [0:nx], y = [0:ny])
-    translate([x, y] * l)
-        cylinder(70, 9.5, 9.5);
+    translate([x*l, y*l, 10]) {
+        cylinder(10, 18, 9);
+        cylinder(70, 9, 9);
+    }
 
 // 中央グループ
 for (x = [0:nx-1], y = [0:ny-1])
-    translate([x + 0.5, y + 0.5] * l)
-        cylinder(70, 9.5, 9.5);
+    translate([(x+0.5)*l, (y+0.5)*l, 10]) {
+        cylinder(10, 18, 9);
+        cylinder(70, 9, 9);
+    }
 }
 
 
@@ -42,13 +46,16 @@ module synced_eye(angle = 0, t) {
     rotate(angle) {
         difference() {
             union() {
-                linear_extrude(height = 10, center = false, convexity = 10, twist = 0)
+                linear_extrude(height = 20, center = false, convexity = 10, twist = 0)
                 gear(z = z, r = r_pitch);
-                translate([0, 0, 10])
-                linear_extrude(height = 200, center = false, convexity = 10, twist = 360*t)
+                translate([0, 0, 19.9])
+                linear_extrude(height = 200, center = false, convexity = 10, twist = 540*t)
                 scale([1.45, 1.2, 1])eye();
             }
-            translate([0, 0, -10]) cylinder(100, 10, 10);
+            union() {
+                cylinder(10, 21, 11);
+                cylinder(100, 11, 11);
+            }
         }
     }
 }
