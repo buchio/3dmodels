@@ -9,7 +9,7 @@ z       = 12;            // 歯数（4の倍数にすると45度対角で完璧�
 r_pitch = 33;            // ピッチ円半径（瞳のサイズに合わせた半径）
 d       = r_pitch * 2;   // ギア同士の中心間距離
 l       = sqrt(2) * d;   // 正方格子の1辺（対角距離が d になる間隔）
-p = 1;
+p = 1.5;
 
 nx = 1;
 ny = 1;
@@ -34,13 +34,13 @@ translate([-l/2, -l/2, 0])
 // 四隅グループ
 for (x = [0:nx], y = [0:ny])
     translate([x*l, y*l, 10]) {
-        cylinder(70, 18, 9);
+        cylinder(70, 15, 9);
     }
 
 // 中央グループ
 for (x = [0:nx-1], y = [0:ny-1])
     translate([(x+0.5)*l, (y+0.5)*l, 10]) {
-        cylinder(70, 18, 9);
+        cylinder(70, 15, 9);
     }
 }
 
@@ -59,7 +59,7 @@ module synced_eye(angle = 0, t) {
                     scale([1.45, 1.2, 1]) eye();
                 }
             }
-            translate([0, 0, -.01]) cylinder(80, 20, 10);
+            translate([0, 0, -.01]) cylinder(80, 16, 10);
         }
     }
 }
