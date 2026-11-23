@@ -3,7 +3,12 @@ include <BOSL2/threading.scad>
 $fn=16;
 
 // --- Parameters ---
-pillar_size = 15;         // Outer size of pillar
+pillar_size = 10;         // Outer size of pillar
+pillar_height = 20;       // Height of pillar
+grid_x = 2;               // Number of pillars along X
+grid_y = 1;               // Number of pillars along Y
+// Top cap opacity (0: transparent/hidden, 1: opaque)
+top_cap_alpha = 1;      // [0:0.05:1]
 pillar_thickness = pillar_size * .12;   // Wall thickness of pillar
 clearance = pillar_size / 25;         // Gap/clearance for fitting
 
@@ -67,9 +72,6 @@ module pillar_wall_with_hall(hall_direction=[1, 0, 0, 0]) {
     }
 }
 
-//color("blue", .5) pillar_wall();
-//color("red", .5) pillar_wall_with_hall([1, 1, 1, 1]);
-
 module pillar_wall_hook() {
     // Main bar
     bar_length = pillar_thickness + clearance*3;
@@ -100,17 +102,6 @@ module pillar_wall_with_hook(hook_direction=[1, 0, 0, 0], hall_direction=[1, 0, 
         rotate(270) pillar_wall_hook();
     }
 }
-
-// Example placements (commented out)
-//translate([-pillar_size, -pillar_size, 0]) pillar_wall_with_hook([0, 0, 0, 0], [1, 1, 0, 0]);
-//translate([-pillar_size, 0, 0])   pillar_wall_with_hook([0, 1, 0, 1], [1, 0, 0, 0]);
-//translate([-pillar_size, pillar_size, 0])  pillar_wall_with_hook([0, 0, 0, 0], [1, 0, 0, 1]);
-//translate([0, -pillar_size, 0])   pillar_wall_with_hook([1, 0, 1, 0], [0, 1, 0, 0]);
-//translate([0, 0, 0])     pillar_wall_with_hook([1, 1, 1, 1], [0, 0, 0, 0]);
-//translate([0, pillar_size, 0])    pillar_wall_with_hook([1, 0, 1, 0], [0, 0, 0, 1]);
-//translate([pillar_size, -pillar_size, 0])  pillar_wall_with_hook([0, 0, 0, 0], [0, 1, 1, 0]);
-//translate([pillar_size, 0, 0])    pillar_wall_with_hook([0, 1, 0, 1], [0, 0, 1, 0]);
-//translate([pillar_size, pillar_size, 0])   pillar_wall_with_hook([0, 0, 0, 0], [0, 0, 1, 1]);
 
 module pillar_part(height, hook_direction=[0,0,0,0], hall_direction=[0,0,0,0], hook_only=false) {
     linear_extrude(height) pillar_wall_with_hook(hook_direction, hall_direction, hook_only);
@@ -145,9 +136,6 @@ module pillar_hook_end(height) {
     }
 }
 
-//color("blue", .5) translate([0, 0, 10]) pillar_part(10, [1,0,0,0], hook_only=true);
-//color("red", .5) pillar_hook_end(10);
-
 module cap() {
     cap_height = rect_outer_size/2;
     cap_rounding = pillar_thickness/2;
@@ -170,8 +158,17 @@ module pillar(total_height, hook_direction, hall_direction) {
     mid2_height = pillar_size*.75;
     bottom_height = (total_height - pillar_size) / 2;
 
+    assert(top_cap_alpha >= 0 && top_cap_alpha <= 1, "top_cap_alpha must be between 0 and 1");
+
     // Top cap
-    translate([0, 0, total_height]) cap();
+    if (top_cap_alpha > 0) {
+        if (top_cap_alpha < 1) {
+            color(alpha = top_cap_alpha)
+                translate([0, 0, total_height]) cap();
+        } else {
+            translate([0, 0, total_height]) cap();
+        }
+    }
     // Bottom cap (flipped)
     rotate([180, 0, 0]) cap();
 
@@ -203,49 +200,32 @@ module pillar(total_height, hook_direction, hall_direction) {
     translate([0, 0, 0]) pillar_part(bottom_height, hall_direction=hall_direction);
 }
 
-pillar_height = 50;
-translate([-pillar_size,   -pillar_size,   0]) pillar(pillar_height, [0, 0, 0, 0], [1, 1, 0, 0]);
-translate([0,              -pillar_size,   0]) pillar(pillar_height, [1, 0, 1, 0], [0, 1, 0, 0]);
-translate([pillar_size,    -pillar_size,   0]) pillar(pillar_height, [0, 0, 0, 0], [0, 1, 1, 0]);
+module pillar_grid(nx, ny, height) {
+    assert(nx >= 1 && ny >= 1, "nx and ny must be >= 1");
+    cx = floor(nx / 2);
+    cy = floor(ny / 2);
+    for (iy = [0 : 1 : ny - 1]) {
+        for (ix = [0 : 1 : nx - 1]) {
+            hook_direction = [
+                (ix > 0 && ix <= cx) ? 1 : 0,      // -X
+                (iy > 0 && iy <= cy) ? 1 : 0,      // -Y
+                (ix < nx - 1 && ix >= cx) ? 1 : 0, // +X
+                (iy < ny - 1 && iy >= cy) ? 1 : 0  // +Y
+            ];
+            hall_direction = [
+                (ix < cx) ? 1 : 0,                 // +X
+                (iy < cy) ? 1 : 0,                 // +Y
+                (ix > cx) ? 1 : 0,                 // -X
+                (iy > cy) ? 1 : 0                  // -Y
+            ];
+            x = (ix - (nx - 1) / 2) * pillar_size;
+            y = (iy - (ny - 1) / 2) * pillar_size;
+            translate([x, y, 0])
+                pillar(height, hook_direction, hall_direction);
+        }
+    }
+}
 
-translate([-pillar_size,   0,              0]) pillar(pillar_height, [0, 1, 0, 1], [1, 0, 0, 0]);
-translate([0,              0,              0]) pillar(pillar_height, [1, 1, 1, 1], [0, 0, 0, 0]);
-translate([pillar_size,    0,              0]) pillar(pillar_height, [0, 1, 0, 1], [0, 0, 1, 0]);
-
-translate([-pillar_size,   pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 0], [1, 0, 0, 1]);
-translate([0,              pillar_size,    0]) pillar(pillar_height, [1, 0, 1, 0], [0, 0, 0, 1]);
-translate([pillar_size,    pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 0], [0, 0, 1, 1]);
-
-
-
-//translate([-pillar_size*2, -pillar_size*2, 0]) pillar(pillar_height, [0, 0, 0, 0], [1, 1, 0, 0]);
-//translate([-pillar_size,   -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 0, 0], [1, 1, 0, 0]);
-//translate([0,              -pillar_size*2, 0]) pillar(pillar_height, [1, 0, 1, 0], [0, 1, 0, 0]);
-//translate([pillar_size,    -pillar_size*2, 0]) pillar(pillar_height, [0, 0, 1, 0], [0, 1, 1, 0]);
-//translate([pillar_size*2,  -pillar_size*2, 0]) pillar(pillar_height, [0, 0, 0, 0], [0, 1, 1, 0]);
-//
-//translate([-pillar_size*2, -pillar_size,   0]) pillar(pillar_height, [0, 1, 0, 0], [1, 1, 0, 0]);
-//translate([-pillar_size,   -pillar_size,   0]) pillar(pillar_height, [1, 1, 0, 0], [1, 1, 0, 0]);
-//translate([0,              -pillar_size,   0]) pillar(pillar_height, [1, 1, 1, 0], [0, 1, 0, 0]);
-//translate([pillar_size,    -pillar_size,   0]) pillar(pillar_height, [0, 1, 1, 0], [0, 1, 1, 0]);
-//translate([pillar_size*2,  -pillar_size,   0]) pillar(pillar_height, [0, 1, 0, 0], [0, 1, 1, 0]);
-//
-//translate([-pillar_size*2, 0,              0]) pillar(pillar_height, [0, 1, 0, 1], [1, 0, 0, 0]);
-//translate([-pillar_size,   0,              0]) pillar(pillar_height, [1, 1, 0, 1], [1, 0, 0, 0]);
-//translate([0,              0,              0]) pillar(pillar_height, [1, 1, 1, 1], [0, 0, 0, 0]);
-//translate([pillar_size,    0,              0]) pillar(pillar_height, [0, 1, 1, 1], [0, 0, 1, 0]);
-//translate([pillar_size*2,  0,              0]) pillar(pillar_height, [0, 1, 0, 1], [0, 0, 1, 0]);
-//
-//translate([-pillar_size*2, pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 1], [1, 0, 0, 1]);
-//translate([-pillar_size,   pillar_size,    0]) pillar(pillar_height, [1, 0, 0, 1], [1, 0, 0, 1]);
-//translate([0,              pillar_size,    0]) pillar(pillar_height, [1, 0, 1, 1], [0, 0, 0, 1]);
-//translate([pillar_size,    pillar_size,    0]) pillar(pillar_height, [0, 0, 1, 1], [0, 0, 1, 1]);
-//translate([pillar_size*2,  pillar_size,    0]) pillar(pillar_height, [0, 0, 0, 1], [0, 0, 1, 1]);
-//
-//translate([-pillar_size*2, pillar_size*2,  0]) pillar(pillar_height, [0, 0, 0, 0], [1, 0, 0, 1]);
-//translate([-pillar_size,   pillar_size*2,  0]) pillar(pillar_height, [1, 0, 0, 0], [1, 0, 0, 1]);
-//translate([0,              pillar_size*2,  0]) pillar(pillar_height, [1, 0, 1, 0], [0, 0, 0, 1]);
-//translate([pillar_size,    pillar_size*2,  0]) pillar(pillar_height, [0, 0, 1, 0], [0, 0, 1, 1]);
-//translate([pillar_size*2,  pillar_size*2,  0]) pillar(pillar_height, [0, 0, 0, 0], [0, 0, 1, 1]);
+pillar_grid(grid_x, grid_y, pillar_height);
 
 
